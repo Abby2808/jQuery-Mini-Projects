@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Hex Color Code Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <script src="https://kit.fontawesome.com/369c1756a5.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: none;
+            outline: none;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F8F6F6;
+            min-height: 100vh;
+            font-family: "montserrat", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        input, textarea, button {
+            font-family: inherit;
+        }
+        .container {
+            background-color: #F8F6F6;
+            border-radius: 6px;
+            box-shadow: 0 0 25px 5px rgba(82, 86, 94, 0.2);
+            display: flex;
+        }
+        .color-preview {
+            width: 280px;
+            height: 250px;
+            background-color: #19BFFF;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .controls {
+            width: 430px;
+            height: 250px;
+            padding: 60px;
+            background-color: #F8F6F6;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+        .input-box {
+            display: flex;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 15px;
+            color: #19BFFF;
+            background: transparent;
+            font-size: 22px;
+            font-weight: 600;
+            border: 2px solid #19BFFF;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+        }
+        .input-box .copy-btn {
+            padding: 10px 25px;
+            color: #F8F6F6;
+            background-color: #19BFFF;
+            font-size: 22px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+            cursor: pointer;
+        }
+        .generate-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            color: #F8F6F6;
+            background-color: #000000;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .copy-btn:active, .generate-btn:active {
+            opacity: 0.9;
+        }
+        .alert-msg {
+            width: 400px;
+            padding: 15px;
+            color: #F8F6F6;
+            background-color: #363636;
+            font-size: 20px;
+            font-weight: 400;
+            border-radius: 6px;
+            text-align: center;
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+        .alert-msg .code {
+            font-weight: 700;
+        }
+        .slide-effect {
+            animation: slideInUp 2s ease-in;
+        }
+        @keyframes slideInUp {
+            0% {
+                opacity: 0;
+                bottom: -100px;
+            }
+            20% {
+                opacity: 1;
+                bottom: 20px;
+            }
+            90% {
+                opacity: 1;
+                bottom: 20px;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="color-preview"></div>
+        <div class="controls">
+            <div class="input-box">
+                <input type="text" id="inputField" class="inputField" value="#19BFFF" readonly /> 
+                <button class="copy-btn"><i class="fas fa-copy"></i></button>
+            </div> 
+            <button class="generate-btn">Generate</button>
+            <div class="alert-msg">Copied <span class="code">#19BFFF</span> To Clipboard</div> 
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $('.generate-btn').click(function () {
+            var randomColor = "";
+            var characters = "0123456789abcdef";
+
+            for (i = 0; i < 6; i++) {
+                randomColor = randomColor + characters[Math.floor(Math.random() * 16)];
+            }
+
+            $('#inputField').val("0" + randomColor);
+            $('#inputField').css("color", "#" + randomColor);
+            $('#inputField').css("border-color", "#" + randomColor);
+            $('.color-preview, .copy-btn').css("background-color", "#" + randomColor);
+
+            function add() {
+                $(".alert-msg").addClass("slide-effect");
+            }
+            function remove() {
+                $(".alert-msg").removeClass("slide-effect");
+            }
+
+            $(".copy-btn").click(function () {
+                $('#inputField').select();
+                document.execCommand("copy");
+                add();
+                setTimeout(remove,2000);
+                $('.code').text($('#inputField').val())
+            });
+        });
+    });
+</script>
+</html>
